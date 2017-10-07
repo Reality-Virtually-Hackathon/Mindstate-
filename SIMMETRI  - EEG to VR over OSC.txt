@@ -1,0 +1,106 @@
+Connects by network to EEG brain brain signal software via OSC: 
+
+
+______ SIMMETRI'S EEG-CONNECT LUA SCRIPTING CODE BELOW______ 
+
+ 
+
+require "common"
+osc = require "osc"
+ConstantPulse.socket = nil
+
+-- This code is designed to work with the mrmr IOS app (load tutorial.mmr)
+-- Note that you'll need to ensure Simmetri is allowed through the Windows firewall
+-------------------------
+-- mrmr sends OSC packets like this: 
+-- addr: /mrmr/CONTROL_TYPE/[CONTROL_SUB_TYPE]/CONTROL_ID/DEVICE_ID
+-- types: [i,s]  i=integer, s=string
+-- m[1]: value
+
+-- Button IDs (from tutorial.mmr)
+
+tblIDs = {}
+tblIDs[1] = "/cs1/lc/posx"
+tblIDs[2] = "/cs1/lc/posy"
+tblIDs[3] = "/cs1/lc/rotx"
+tblIDs[4] = "/cs1/lc/roty"
+tblIDs[5] = "/cs1/lc/rotz"
+
+tblLabels = {}
+tblLabels[1] = "gamma"
+tblLabels[2] = "beta"
+tblLabels[3] = "alpha"
+tblLabels[4] = "theta"
+tblLabels[5] = "delta"
+
+tblPorts = {}
+tblPorts[1] = 3004
+tblPorts[2] = 3003
+tblPorts[3] = 3002
+tblPorts[4] = 3001
+tblPorts[5] = 3000
+tblSocks = {}
+
+tblValues = {}
+tblValues[1] = 0
+tblValues[2] = 0
+tblValues[3] = 0
+tblValues[4] = 0
+tblValues[5] = 0
+
+function splitString(s)
+	if (not s) then
+		return
+	end
+	t = {}
+	-- Pull out each word between "/" and add to a simple table
+	for v in string.gmatch(s, "/(%w+)") do
+		t[#t+1] = v
+	end	
+	return t
+end
+
+function ConstantPulse:processOSCMessage(msg)
+
+	for i=1,#tblIDs do
+		if (msg.addr == tblIDs[i]) then
+			tblValues[i] = tonumber(msg[1])
+			return
+		end
+	end
+end
+
+function ConstantPulse:checkForOSCMessages()
+	for i=1,#tblSocks do 
+		for msg in tblSocks[i]:recv() do 
+			if (type(msg.addr) == "string") then
+				self:processOSCMessage(msg)
+			end
+		end
+	end
+
+	--BoxEntity = findObjectByUid("11N3WKNUR6H3W0QRAPD288USAC/16UJDTYCFJC9K1K31DZDDRICG4/155Q6KZCV6S9W1QS07XDX7JT7Q")
+	--BoxEntity:setWorldScale(vector3(1,tblValues[5]*10,1))
+	for i=1,#tblIDs do
+		print(tblLabels[i] .. ": " .. tostring(tblValues[i]), i)	
+	end
+
+	ConstantPulse = findObjectByUid("11N3WKNUR6H3W0QRAPD288USAC/10TKHB37IO5J81H6PKKWZECEXG")
+	ConstantPulse.frequency = tblValues[3] * 10
+end
+
+function ConstantPulse:registerOSCClient()
+	for i=1,#tblPorts do
+		tblSocks[i] = osc.Recv(tblPorts[i])
+	end
+end
+
+-- On init, create the network socket we listen in on
+function ConstantPulse:onInit(obj)
+	self:registerOSCClient()
+end
+
+-- This function is called at a frequency that determines how often we check for OSC messages
+function ConstantPulse:onPulse(uSubEvents)
+	self:checkForOSCMessages()
+end
