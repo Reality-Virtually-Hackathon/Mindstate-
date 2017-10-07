@@ -1,3 +1,10 @@
+________________
+
+SIMMETRI  -- EEG to VR over OSC 
+
+Download Simmetri to windows machine: File>openFromShareID  
+Simmetri ShareID:   max>brain
+
 Connects by network to EEG brain brain signal software via OSC: 
 
 
