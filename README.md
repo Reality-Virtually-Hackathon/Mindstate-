@@ -7,3 +7,6 @@ One goal of the interface is to help people focus and affect the levels of elect
 In the Mindscape demo, we will show people a reflection of their mind state in the auditory and visual elements of their virtual world, making a unique, immersive work of art. 
 
 We used the Simmetri software and a HTC Vitual Reality headset to create the world in VR.
+
+Project members: Suzane Hillman, Stas Rutkowskr, Nevin Nurse, Masahiro Kahata, Hajime Kuwayama
+Simmetri mentors: Max Harper & Amedeo Mapelli
