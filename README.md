@@ -2,6 +2,8 @@
 
 The focus of this project is assist people to train and develop their mind in VR, using the world's most sensitive EEG-sensitive headband with the accompanying brain spectrum analysis visualization tool pioneered by Masahiro Kahata. 
 
-One goal of the interface is to help people focus and affect the levels of electrical impulses within their brain. Creation of balance between hemispheres is known as "coherence", a common goal of meditation and mindfullness. 
+One goal of the interface is to help people focus and affect the levels of electrical power within their brain. Creation of balance between hemispheres can lead toward "coherence" or "soft focus", a common goal of meditation, mindfullness, and peak performance training. 
 
-In the demo, we will introduce people to the effects of their mind on their surroundings using iteractive elements whose audio and video output is altered by the user's brainwaves. We used the Simmetri software and a HTC Vitual Reality headset to create the world in VR.
+In the Mindscape demo, we will show people a reflection of their mind state in the auditory and visual elements of their virtual world, making a unique, immersive work of art. 
+
+We used the Simmetri software and a HTC Vitual Reality headset to create the world in VR.
